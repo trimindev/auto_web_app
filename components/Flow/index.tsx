@@ -96,7 +96,7 @@ function Flow() {
   );
 
   return (
-    <div className="h-screen basis-3/4">
+    <div className="h-screen basis-2/3">
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
@@ -109,7 +109,7 @@ function Flow() {
         fitView
       >
         <Background className="pointer-events-none" />
-        <div className="absolute right-4 top-24 p-4">
+        <div className="absolute right-4 bottom-5 p-4">
           <Controls />
         </div>
       </ReactFlow>
