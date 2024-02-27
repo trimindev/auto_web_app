@@ -1,9 +1,10 @@
+"use client";
+
 import { useCallback } from "react";
 import ReactFlow, {
   Node,
   Controls,
   Background,
-  MiniMap,
   useNodesState,
   useEdgesState,
   addEdge,
@@ -95,7 +96,7 @@ function Flow() {
   );
 
   return (
-    <div className="h-full">
+    <div className="h-screen basis-3/4">
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
@@ -108,8 +109,9 @@ function Flow() {
         fitView
       >
         <Background className="pointer-events-none" />
-        <Controls />
-        <MiniMap />
+        <div className="absolute right-4 top-24 p-4">
+          <Controls />
+        </div>
       </ReactFlow>
     </div>
   );
