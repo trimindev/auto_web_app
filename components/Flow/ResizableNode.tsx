@@ -1,25 +1,15 @@
-import { memo } from "react";
-import { Handle, Position, NodeResizeControl } from "reactflow";
+import { memo, FC } from "react";
+import { Handle, Position, NodeResizeControl, NodeProps } from "reactflow";
 
-const controlStyle = {
-  background: "transparent",
-  border: "true",
-};
-
-const CustomNode = ({ data }) => {
+const CustomNode: FC<NodeProps> = ({ data }) => {
   return (
     <>
-      <NodeResizeControl
-        style={controlStyle}
-        minWidth={200}
-        minHeight={200}
-        keepAspectRatio
-      >
+      <NodeResizeControl minWidth={200} minHeight={200} keepAspectRatio>
         <ResizeIcon />
       </NodeResizeControl>
 
       <Handle type="target" position={Position.Top} />
-      <div>{data.label}</div>
+      <div className="font-bold text-lg">{data.label}</div>
       <Handle type="source" position={Position.Bottom} />
     </>
   );
@@ -33,7 +23,7 @@ function ResizeIcon() {
       height="20"
       viewBox="0 0 24 24"
       strokeWidth="2"
-      stroke="#ff0071"
+      stroke="#000000"
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"

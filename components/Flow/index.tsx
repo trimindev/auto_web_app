@@ -14,35 +14,35 @@ import ReactFlow, {
 import CustomNode from "./CustomNode";
 import ResizableNode from "./ResizableNode";
 import "reactflow/dist/style.css";
-import styles from "./Flow.module.css";
 
 const initialNodes: Node[] = [
   {
     id: "a",
-    type: "input",
+    type: "custom",
     data: { label: "Node 1" },
     position: { x: 250, y: 5 },
   },
   {
     id: "b",
+    type: "custom",
     data: { label: "Node 2" },
     position: { x: 100, y: 100 },
   },
   {
     id: "3",
+    type: "custom",
     data: { label: "Node 3" },
     position: { x: 400, y: 100 },
   },
   {
     id: "4",
+    type: "custom",
     data: { label: "Node 4" },
     position: { x: 400, y: 200 },
-    type: "custom",
-    className: styles.customNode,
   },
   {
     id: "A",
-    type: "ResizableNode",
+    type: "group",
     data: { label: "hello" },
     position: { x: 0, y: 0 },
     style: {
@@ -56,7 +56,7 @@ const initialNodes: Node[] = [
   },
   {
     id: "B",
-    type: "input",
+    type: "custom",
     data: { label: "child node 1" },
     position: { x: 10, y: 10 },
     parentNode: "A",
@@ -64,6 +64,7 @@ const initialNodes: Node[] = [
   },
   {
     id: "C",
+    type: "custom",
     data: { label: "child node 2" },
     position: { x: 10, y: 90 },
     parentNode: "A",
@@ -78,11 +79,10 @@ const initialEdges: Edge[] = [
 
 const nodeTypes = {
   custom: CustomNode,
-  ResizableNode,
+  group: ResizableNode,
 };
 
 const defaultEdgeOptions = {
-  // animated: true,
   type: "smoothstep",
 };
 

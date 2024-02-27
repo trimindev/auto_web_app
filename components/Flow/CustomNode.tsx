@@ -1,42 +1,14 @@
-import { memo, FC, CSSProperties } from "react";
-import { Handle, Position, NodeProps, NodeResizer } from "reactflow";
+import { memo, FC } from "react";
+import { Handle, Position, NodeProps } from "reactflow";
+import "reactflow/dist/style.css";
 
-const sourceHandleStyleA: CSSProperties = { left: 50 };
-const sourceHandleStyleB: CSSProperties = {
-  right: 50,
-  left: "auto",
-};
-
-const CustomNode: FC<NodeProps> = ({ data, xPos, yPos }) => {
+const CustomNode: FC<NodeProps> = ({ data }) => {
   return (
-    <>
-      <NodeResizer />
+    <div className="border-black border-[1px] rounded-md py-2 px-10">
       <Handle type="target" position={Position.Top} />
-      <div>
-        <div>
-          Label: <strong>{data.label}</strong>
-        </div>
-        <div>
-          Position:{" "}
-          <strong>
-            {xPos.toFixed(2)},{yPos.toFixed(2)}
-          </strong>
-        </div>
-      </div>
-
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        style={sourceHandleStyleA}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={sourceHandleStyleB}
-      />
-    </>
+      <div>{data.label} </div>
+      <Handle type="source" position={Position.Bottom} />
+    </div>
   );
 };
 
