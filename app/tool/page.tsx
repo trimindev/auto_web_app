@@ -7,10 +7,7 @@ function page() {
   return (
     <div className="">
       <Nav />
-      <div className="flex">
-        <LeftSide />
-        <Flow />
-      </div>
+      <Flow />
     </div>
   );
 }

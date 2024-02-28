@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
+  ReactFlowProvider,
   Node,
   Controls,
   Background,
@@ -14,6 +15,7 @@ import ReactFlow, {
 } from "reactflow";
 import CustomNode from "./CustomNode";
 import "reactflow/dist/style.css";
+import LeftSide from "../LeftSide";
 
 const initialNodes: Node[] = [
   {
@@ -58,29 +60,76 @@ const defaultEdgeOptions = {
 function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
+
   const onConnect = useCallback(
     (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
 
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+
+      const data = event.dataTransfer.getData("application/reactflow");
+      console.log("data", data);
+      // check if the dropped element is valid
+      if (typeof data === "undefined" || !data) {
+        return;
+      }
+
+      if (!reactFlowInstance) {
+        return;
+      }
+
+      const position = reactFlowInstance.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+      const newNode: Node = {
+        id: `dndnode_${Date.now()}`,
+        type: "custom",
+        position,
+        data: JSON.parse(data),
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance, setNodes]
+  );
+
   return (
-    <div className="h-screen basis-3/4">
-      <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        defaultEdgeOptions={defaultEdgeOptions}
-        connectionLineType={ConnectionLineType.SmoothStep}
-        fitView
-      >
-        <Background className="pointer-events-none" />
-        <div className="absolute right-4 bottom-5 p-4">
-          <Controls />
+    <div className="flex">
+      <ReactFlowProvider>
+        <LeftSide />
+        <div className="h-screen basis-3/4" ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+            defaultEdgeOptions={defaultEdgeOptions}
+            connectionLineType={ConnectionLineType.SmoothStep}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            onInit={setReactFlowInstance}
+            fitView
+          >
+            <Background className="pointer-events-none" />
+            <div className="absolute right-4 bottom-5 p-4">
+              <Controls />
+            </div>
+          </ReactFlow>
         </div>
-      </ReactFlow>
+      </ReactFlowProvider>
     </div>
   );
 }
