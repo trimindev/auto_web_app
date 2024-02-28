@@ -1,6 +1,6 @@
 import Flow from "@/components/Flow";
 import Nav from "@/components/Nav";
-import Table from "@/components/Table";
+import LeftSide from "@/components/LeftSide";
 import React from "react";
 
 function page() {
@@ -8,7 +8,7 @@ function page() {
     <div className="">
       <Nav />
       <div className="flex">
-        <Table />
+        <LeftSide />
         <Flow />
       </div>
     </div>
