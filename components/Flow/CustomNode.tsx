@@ -4,7 +4,7 @@ import "reactflow/dist/style.css";
 
 const CustomNode: FC<NodeProps> = ({ data }) => {
   return (
-    <div className="border-black border-[1px] rounded-md py-2 px-10">
+    <div className="custom-node">
       <Handle type="target" position={Position.Top} />
       <div>{data.label} </div>
       <Handle type="source" position={Position.Bottom} />

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .custom-node {
+    @apply border-black border-[1px] rounded-md py-2 px-10;
+  }
+}
