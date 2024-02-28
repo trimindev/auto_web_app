@@ -12,6 +12,9 @@ import ReactFlow, {
   Connection,
   Edge,
   ConnectionLineType,
+  getIncomers,
+  getOutgoers,
+  getConnectedEdges,
 } from "reactflow";
 import CustomNode from "./CustomNode";
 import "reactflow/dist/style.css";
@@ -64,8 +67,35 @@ function Flow() {
   const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
 
   const onConnect = useCallback(
-    (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
+    (params: Connection | Edge) => setEdges(addEdge(params, edges)),
+    [edges]
+  );
+
+  const onNodesDelete = useCallback(
+    (deleted: any) => {
+      setEdges(
+        deleted.reduce((acc: any, node: any) => {
+          const incomers: any = getIncomers(node, nodes, edges);
+          const outgoers: any = getOutgoers(node, nodes, edges);
+          const connectedEdges: any = getConnectedEdges([node], edges);
+
+          const remainingEdges = acc.filter(
+            (edge: any) => !connectedEdges.includes(edge)
+          );
+
+          const createdEdges: any = incomers.flatMap(({ id: source }: any) =>
+            outgoers.map(({ id: target }: any) => ({
+              id: `${source}->${target}`,
+              source,
+              target,
+            }))
+          );
+
+          return [...remainingEdges, ...createdEdges];
+        }, edges)
+      );
+    },
+    [nodes, edges]
   );
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
@@ -77,8 +107,7 @@ function Flow() {
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      const data = event.dataTransfer.getData("application/reactflow");
-      console.log("data", data);
+      const data: any = event.dataTransfer.getData("application/reactflow");
       // check if the dropped element is valid
       if (typeof data === "undefined" || !data) {
         return;
@@ -96,13 +125,20 @@ function Flow() {
         id: `dndnode_${Date.now()}`,
         type: "custom",
         position,
-        data: JSON.parse(data),
+        data: {
+          ...JSON.parse(data),
+          onDelete: handleNodeDelete,
+        },
       };
-
+      console.log("newNode", newNode.id);
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance, setNodes]
   );
+
+  const handleNodeDelete = useCallback((nodeId: string) => {
+    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== nodeId));
+  }, []);
 
   return (
     <div className="flex">
@@ -113,10 +149,11 @@ function Flow() {
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
+            onNodesDelete={onNodesDelete}
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
-            connectionLineType={ConnectionLineType.SmoothStep}
+            // deleteKeyCode={["Backspace", "Delete"]}
             onConnect={onConnect}
             onDrop={onDrop}
             onDragOver={onDragOver}
