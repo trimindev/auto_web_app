@@ -11,7 +11,6 @@ import ReactFlow, {
   addEdge,
   Connection,
   Edge,
-  ConnectionLineType,
   getIncomers,
   getOutgoers,
   getConnectedEdges,
@@ -153,7 +152,7 @@ function Flow() {
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
-            // deleteKeyCode={["Backspace", "Delete"]}
+            deleteKeyCode={["Backspace", "Delete"]}
             onConnect={onConnect}
             onDrop={onDrop}
             onDragOver={onDragOver}
