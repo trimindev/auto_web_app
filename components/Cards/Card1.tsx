@@ -2,6 +2,7 @@ import { NodeData } from "@/lib/types";
 import React from "react";
 import actionGroupList from "@/app/data/actionList.json";
 import { findActionByFunc } from "@/lib/action_ultis";
+import { CardForm1 } from "./Form1";
 
 type pageProps = {
   data: NodeData;
@@ -14,10 +15,9 @@ function Card1({ data, nodeId }: pageProps) {
 
   const action = findActionByFunc(actionGroupList, func);
 
-  console.log(action);
-
   return (
     <div>
+      <CardForm1 />
       {name}
       <button
         onClick={(e) => {
