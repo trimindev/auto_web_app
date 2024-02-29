@@ -10,23 +10,21 @@ type pageProps = {
 };
 
 function Card1({ data, nodeId }: pageProps) {
-  const { actionData, onDelete } = data;
-  const { func, name } = actionData;
-
-  const action = findActionByFunc(actionGroupList, func);
+  const action = findActionByFunc(actionGroupList, data.actionData.func);
 
   return (
-    <div>
-      <CardForm1 />
-      {name}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          onDelete(nodeId);
-        }}
-      >
-        delete
-      </button>
+    <div className="relative">
+      {action && <CardForm1 data={data} action={action} />}
+      {/* <div className="fixed ">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            data.onDelete(nodeId);
+          }}
+        >
+          delete
+        </button>
+      </div> */}
     </div>
   );
 }
