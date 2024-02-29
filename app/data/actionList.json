@@ -3,10 +3,41 @@
     "groupName": "Detect Image",
     "actionList": [
       {
-        "id": 1,
         "name": "Nhấn Ảnh",
         "func": "click_image",
         "desc": "nhấn vào trung tâm của ảnh tìm được",
+        "color": "red-500",
+        "inputList": [
+          {
+            "name": "Đường dẫn ảnh",
+            "desc": "/img/button1.png",
+            "var": "img_path"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupName": "Detect Image",
+    "actionList": [
+      {
+        "name": "Nhấn Ảnh",
+        "func": "click_image",
+        "desc": "nhấn vào trung tâm của ảnh tìm được",
+        "color": "red-500",
+        "inputList": [
+          {
+            "name": "Đường dẫn ảnh",
+            "desc": "/img/button1.png",
+            "var": "img_path"
+          }
+        ]
+      },
+      {
+        "name": "Nhấn Ảnh",
+        "func": "click_image",
+        "desc": "nhấn vào trung tâm của ảnh tìm được",
+        "color": "red-500",
         "inputList": [
           {
             "name": "Đường dẫn ảnh",

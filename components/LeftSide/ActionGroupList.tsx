@@ -1,11 +1,11 @@
 import React from "react";
 import ActionGroup from "./ActionGroup";
-import allActionGroup from "@/app/data/actionList.json";
+import actionGroupList from "@/app/data/actionList.json";
 
 function ActionGroupList() {
   return (
-    <div className="p-2 ">
-      {allActionGroup.map((actionGroup, index) => (
+    <div className="p-2">
+      {actionGroupList.map((actionGroup, index) => (
         <ActionGroup key={index} actionGroup={actionGroup} />
       ))}
     </div>

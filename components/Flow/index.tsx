@@ -18,41 +18,21 @@ import ReactFlow, {
 import CustomNode from "./CustomNode";
 import "reactflow/dist/style.css";
 import LeftSide from "../LeftSide";
+import { createNewNode } from "@/lib/node_utils";
+import StartNode from "./StartNode";
 
 const initialNodes: Node[] = [
   {
     id: "1",
-    type: "custom",
-    data: { label: "Node 1" },
+    type: "start",
+    data: {},
     position: { x: 250, y: 5 },
   },
-  {
-    id: "2",
-    type: "custom",
-    data: { label: "Node 2" },
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: "3",
-    type: "custom",
-    data: { label: "Node 3" },
-    position: { x: 400, y: 100 },
-  },
-  {
-    id: "4",
-    type: "custom",
-    data: { label: "Node 4" },
-    position: { x: 400, y: 200 },
-  },
-];
-
-const initialEdges: Edge[] = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "2", target: "3" },
 ];
 
 const nodeTypes = {
   custom: CustomNode,
+  start: StartNode,
 };
 
 const defaultEdgeOptions = {
@@ -61,7 +41,7 @@ const defaultEdgeOptions = {
 
 function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
 
@@ -106,9 +86,9 @@ function Flow() {
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      const data: any = event.dataTransfer.getData("application/reactflow");
+      const func: any = event.dataTransfer.getData("application/reactflow");
       // check if the dropped element is valid
-      if (typeof data === "undefined" || !data) {
+      if (typeof func === "undefined" || !func) {
         return;
       }
 
@@ -120,16 +100,9 @@ function Flow() {
         x: event.clientX,
         y: event.clientY,
       });
-      const newNode: Node = {
-        id: `dndnode_${Date.now()}`,
-        type: "custom",
-        position,
-        data: {
-          ...JSON.parse(data),
-          onDelete: handleNodeDelete,
-        },
-      };
-      console.log("newNode", newNode.id);
+
+      const newNode = createNewNode(position, func, handleNodeDelete);
+
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance, setNodes]

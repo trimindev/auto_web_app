@@ -4,9 +4,8 @@ import { ActionGroupType } from "@/lib/types";
 
 function ActionGroup({ actionGroup }: { actionGroup: ActionGroupType }) {
   const { groupName, actionList } = actionGroup;
-  console.log(actionList);
   return (
-    <div className="">
+    <div className="mb-4">
       <div className="mb-3">
         <h2 className="font-semibold text-lg">{groupName}</h2>
       </div>

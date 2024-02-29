@@ -1,3 +1,14 @@
+export type NodeData = {
+  actionData: ActionData;
+  onDelete: (id: string) => void;
+};
+
+export type ActionData = {
+  func: string;
+  name: string;
+  [key: string]: any;
+};
+
 export type InputType = {
   name: string;
   var: string;
@@ -5,7 +16,6 @@ export type InputType = {
 };
 
 export type ActionType = {
-  id: number;
   name: string;
   func: string;
   desc: string;

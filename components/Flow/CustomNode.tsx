@@ -7,32 +7,23 @@ import {
 } from "@/components/ui/popover";
 
 import "reactflow/dist/style.css";
+import { NodeData } from "@/lib/types";
+import Card1 from "../Cards/Card1";
 
-export type CustomProps = {
-  label: string;
-  onDelete: (id: string) => void;
-};
+const CustomNode = ({ data, id }: NodeProps<NodeData>) => {
+  const { actionData } = data;
 
-const CustomNode = ({ data, id }: NodeProps<CustomProps>) => {
   return (
     <Popover>
       <PopoverTrigger>
-        {" "}
         <div className="custom-node">
           <Handle type="target" position={Position.Top} />
-          <div>{data.label} </div>
+          <div>{actionData?.name} </div>
           <Handle type="source" position={Position.Bottom} />
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            data.onDelete(id);
-          }}
-        >
-          delete
-        </button>
+        <Card1 data={data} nodeId={id} />
       </PopoverContent>
     </Popover>
   );
