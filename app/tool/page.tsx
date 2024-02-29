@@ -1,6 +1,5 @@
 import Flow from "@/components/Flow";
 import Nav from "@/components/Nav";
-import LeftSide from "@/components/LeftSide";
 import React from "react";
 
 function page() {

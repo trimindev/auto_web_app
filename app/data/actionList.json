@@ -1,0 +1,20 @@
+[
+  {
+    "groupName": "Detect Image",
+    "actionList": [
+      {
+        "id": 1,
+        "name": "Nhấn Ảnh",
+        "func": "click_image",
+        "desc": "nhấn vào trung tâm của ảnh tìm được",
+        "inputList": [
+          {
+            "name": "Đường dẫn ảnh",
+            "desc": "/img/button1.png",
+            "var": "img_path"
+          }
+        ]
+      }
+    ]
+  }
+]

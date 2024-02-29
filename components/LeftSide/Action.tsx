@@ -1,22 +1,21 @@
 import React from "react";
+import { ActionType } from "@/lib/types";
 
-function Action() {
-  const additionalData = {
-    label: "action",
-  };
+function Action({ action }: { action: ActionType }) {
+  const { name, id } = action;
 
-  const onDragStart = (event: any, data: any) => {
-    event.dataTransfer.setData("application/reactflow", JSON.stringify(data));
+  const onDragStart = (event: any, id: number) => {
+    event.dataTransfer.setData("application/reactflow", JSON.stringify(id));
     event.dataTransfer.effectAllowed = "move";
   };
 
   return (
     <div
       className="border-2 px-4 py-3 flex items-center justify-center rounded-lg border-neutral-800 cursor-pointer"
-      onDragStart={(event) => onDragStart(event, additionalData)}
+      onDragStart={(event) => onDragStart(event, id)}
       draggable
     >
-      <h3>Action</h3>
+      <h3>{name}</h3>
     </div>
   );
 }
